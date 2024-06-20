@@ -1,13 +1,15 @@
 let numeroSorteado = [];
 let numeroLimite = 10
 let numeroGerado = gerarNumero();
+let limpar;
+//let tentativa = 1;
 exibirMensagemInicial();
 
 
 function exibirTexto(tag,texto){
     let campo = document.querySelector(tag);
     campo.innerHTML = texto;
-    responsiveVoice.speak(texto,'Brazilian Portuguese Female', {rate:1.2});
+    //responsiveVoice.speak(texto,'Brazilian Portuguese Female', {rate:1.2});
 
 }
 
@@ -16,26 +18,26 @@ function exibirMensagemInicial(){
     exibirTexto('p', 'Escolha um número entre 1 e 10')
 
 }
-
-
-
+let tentativa = 1;
 function verificarTentativa() {
-    let tentativa = document.querySelector('input').value
-    if (tentativa == numeroGerado){
+    let tentativaInput = document.querySelector('input').value
+    if (tentativaInput == numeroGerado){
         exibirTexto('h1', 'Acertou!');
-        let palavraTentativa = tentativa > 1 ? 'tentativas' : 'tentativa';
+        let palavraTentativa = tentativaInput > 1 ? 'tentativas' : 'tentativa';
         let mensagemTentativa = `Você descobriu o número secreto com ${tentativa} ${palavraTentativa}!`
         exibirTexto('p', mensagemTentativa);
         document.getElementById('reiniciar').removeAttribute('disabled');
     } else{
-        if (tentativa > numeroGerado){
+        if (tentativaInput > numeroGerado){
+            tentativa++;
             exibirTexto('p', "O número secreto é menor.");
         } else{
+            tentativa++;
             exibirTexto('p', "O número secreto é maior.");
         }
-        tentativa++;
         limparCampo();
     }
+    console.log(tentativa)//tentativa++;
 }
 
 function gerarNumero() {
@@ -53,17 +55,15 @@ function gerarNumero() {
     }
 }
 
-
-
 function limparCampo(){
-    tentativa = document.querySelector('input');
-    tentativa.value = '';
+   limpar = document.querySelector('input');
+   limpar.value = '';
 }
 
 function novoJogo() {
     numeroGerado = gerarNumero();
     limparCampo();
-    tentativas = 1;
+    tentativa = 1;
     exibirMensagemInicial();
     document.getElementById('reiniciar').setAttribute('disabled',True)
 }
